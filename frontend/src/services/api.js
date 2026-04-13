@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const apiBaseUrl = import.meta.env.DEV
+  ? "http://localhost:5000"
+  : import.meta.env.VITE_API_BASE_URL || "/_/backend";
+
 const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: apiBaseUrl,
   timeout: 15000,
 });
 
@@ -20,6 +24,6 @@ export const getHistory = async (limit = 100) => {
   return data;
 };
 
-export const exportHistoryCsvUrl = "http://localhost:5000/history/export";
+export const exportHistoryCsvUrl = `${apiBaseUrl}/history/export`;
 
 export default api;
