@@ -7,7 +7,7 @@ from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 import pandas as pd
 
-from ml.config import HISTORY_PATH
+from ml.config import HISTORY_PATH, resolve_history_path
 from ml.service import ModelService
 from ml.train import train_models
 
@@ -67,10 +67,12 @@ def history():
 def export_history():
     """Export prediction history as CSV."""
 
-    if not HISTORY_PATH.exists():
+    history_path = resolve_history_path()
+
+    if not history_path.exists():
         return jsonify({"error": "No history available to export."}), 404
 
-    history = pd.read_csv(HISTORY_PATH)
+    history = pd.read_csv(history_path)
     csv_buffer = BytesIO(history.to_csv(index=False).encode("utf-8"))
     csv_buffer.seek(0)
 

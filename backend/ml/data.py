@@ -64,6 +64,7 @@ def clean_dataset(df: pd.DataFrame) -> pd.DataFrame:
 def append_history(record: Dict[str, object]) -> None:
     """Append one prediction row to history CSV."""
 
+    HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
     row = pd.DataFrame([record])
     if HISTORY_PATH.exists():
         row.to_csv(HISTORY_PATH, mode="a", header=False, index=False)

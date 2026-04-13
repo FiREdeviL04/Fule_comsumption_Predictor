@@ -1,12 +1,29 @@
 """Configuration and constants for backend ML workflows."""
 from __future__ import annotations
 
+import os
+import tempfile
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / "data"
 MODEL_DIR = BASE_DIR / "saved_models"
-HISTORY_PATH = BASE_DIR / "prediction_history.csv"
+
+
+def resolve_history_path() -> Path:
+    """Return a writable path for prediction history."""
+
+    custom_path = os.environ.get("PREDICTION_HISTORY_PATH")
+    if custom_path:
+        return Path(custom_path)
+
+    if os.environ.get("VERCEL"):
+        return Path(tempfile.gettempdir()) / "prediction_history.csv"
+
+    return BASE_DIR / "prediction_history.csv"
+
+
+HISTORY_PATH = resolve_history_path()
 
 DATASET_CANDIDATES = [
     DATA_DIR / "clean_fuel_model_ready.csv",
