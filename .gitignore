@@ -1,0 +1,13 @@
+.venv/
+frontend/node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+prediction_history.csv
+backend/prediction_history.csv
+frontend/package-lock.json
